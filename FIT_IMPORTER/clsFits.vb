@@ -67,11 +67,18 @@ Public Class clsFits
 
     Public Function getEvents(vDateFrom As String, vDateTo As String) As ADODB.Recordset
         'Date format : 2016-07-01
+        'Dim vSql As String = "select event.*,operation_map.description as operation_name " & _
+        '                "from event INNER JOIN operation_map ON event.operation = operation_map.operation " & _
+        '                "where event.buildtype in ('RMA','PRODUCTION','QUALIFICATION') and " & _
+        '                "event.model=operation_map.model_type and event.timestamp between ? and ?  " & _
+        '                "order by event.date_time"
+        'Edit by Chutchai S on Sep 28,2016
+        'To use Datetime_checkout -- Completed process.
         Dim vSql As String = "select event.*,operation_map.description as operation_name " & _
-                        "from event INNER JOIN operation_map ON event.operation = operation_map.operation " & _
-                        "where event.buildtype in ('RMA','PRODUCTION','QUALIFICATION') and " & _
-                        "event.model=operation_map.model_type and event.timestamp between ? and ?  " & _
-                        "order by event.date_time"
+                "from event INNER JOIN operation_map ON event.operation = operation_map.operation " & _
+                "where event.buildtype in ('RMA','PRODUCTION','QUALIFICATION') and " & _
+                "event.model=operation_map.model_type and event.date_time_checkout between ? and ?  " & _
+                "order by event.date_time"
 
         Dim cmd As New ADODB.Command()
         Dim sDateFromParam As ADODB.Parameter
