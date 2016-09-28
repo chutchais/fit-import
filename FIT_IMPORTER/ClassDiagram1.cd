@@ -1,0 +1,25 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1" MembersFormat="NameAndType">
+  <Class Name="FIT_IMPORTER.clsFits">
+    <Position X="0.5" Y="0.5" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAAIAAggAAgAAABAgQAAAAAAAAAAAACAEAAEAgAEAQI=</HashCode>
+      <FileName>clsFits.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="FIT_IMPORTER.clsBullEyes">
+    <Position X="2.75" Y="0.5" Width="2" />
+    <TypeIdentifier>
+      <HashCode>ACgChAgASBEEAAAhBAxPAABAIEAQChACAABAhCwJCAE=</HashCode>
+      <FileName>clsBullEyes.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="FIT_IMPORTER.clsAutoTest">
+    <Position X="5" Y="0.5" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAAIAAggAAgAAABAgQAAAAAAAAAAAACAEAAEAgAEAQI=</HashCode>
+      <FileName>clsFits.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>
