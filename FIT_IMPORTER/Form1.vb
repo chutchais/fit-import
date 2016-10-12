@@ -7,6 +7,7 @@ Public Class Form1
     Dim cnAutoTest As New ADODB.Connection()
     Dim objInI As clsINI
     Dim vWorkingDir As String
+    Dim vServiceURL As String
 
     Private Sub Button1_Click(sender As Object, e As EventArgs) Handles btnDatabase.Click
         'Dim objFits As New clsFits
@@ -98,7 +99,7 @@ Public Class Form1
                 tssStatus.Text = "Importing......." & rs.AbsolutePosition & "/" & rs.RecordCount : Application.DoEvents()
                 .serialnumber = rs.Fields("serial_no").Value
                 .workorder = rs.Fields("workorder").Value
-                .model = IIf(IsDBNull(rs.Fields("model").Value), "", rs.Fields("model").Value)
+                .model = IIf(IsDBNull(rs.Fields("model").Value), rs.Fields("model2").Value, rs.Fields("model").Value)
 
                 .partnumber = rs.Fields("part_no").Value
                 .operation = rs.Fields("operation").Value
@@ -123,7 +124,7 @@ Public Class Form1
 
                 'Get Testing Data
                 '1)get Process from BullsEye -- by Station.
-                Dim vProcess As String = requestData("http://127.0.0.1:8000/production/station/" & .operation & "/" & .model & "/")
+                Dim vProcess As String = requestData(vServiceURL & "production/station/" & .operation & "/" & .model & "/")
                 '2)get Measurement data.
                 Dim vTestDataRst As New ADODB.Recordset
 
@@ -142,9 +143,9 @@ Public Class Form1
 
 
                 uploadData(.outputfile)
-                lblLastDate.Text = .datetimein : Application.DoEvents()
+                lblLastDate.Text = .datetimeout : Application.DoEvents()
                 '---save last date to INI file---
-                objInI.WriteString("Last execution", "date", .datetimein)
+                objInI.WriteString("Last execution", "date", .datetimeout)
                 '--------------------------------
                 rs.MoveNext()
             Loop
@@ -166,7 +167,7 @@ Public Class Form1
         Try
             doc.Load(vFile)
             With myHTTP
-                .open("Post", "http://127.0.0.1:8000/production/fits/upload/", False)
+                .open("Post", vServiceURL & "production/fits/upload/", False)
                 .setRequestHeader("Content-Type", "text/xml")
                 .send(doc.InnerXml) '+64
                 strReturn = .responseText
@@ -180,7 +181,7 @@ Public Class Form1
             MsgBox("Unable to upload XML!!!" & vbCrLf & _
                 "Because " & ex.Message, MsgBoxStyle.Critical, "Unable to upload XML")
         End Try
-       
+
     End Function
 
 
@@ -222,6 +223,7 @@ Public Class Form1
         lblPeriod.Text = objInI.GetString("import", "range", "")
         lblLoop.Text = objInI.GetString("import", "interval", "")
         lblNextRun.Text = Now
+        vServiceURL = objInI.GetString("service", "url", "")
     End Sub
 
     Function getDateTo(vDateFrom As String) As String
@@ -252,7 +254,9 @@ Public Class Form1
         End If
 
 
+
         initialControl()
+        Me.Text = Me.Text + " (Target : " + vServiceURL + ")"
     End Sub
 
     Private Sub btnImport_Click(sender As Object, e As EventArgs) Handles btnImport.Click
