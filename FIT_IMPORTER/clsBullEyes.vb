@@ -208,7 +208,9 @@ Public Class clsBullEyes
     End Property
 
     Public Sub makeXML(rstParameter As ADODB.Recordset, Optional rstTestData As ADODB.Recordset = Nothing)
-        Dim vXMLFile As String = vSerialNumber & "_" & vTransSeq & "_" & vSnAtrrCode & ".xml"
+        Dim vXMLFile As String = vOperation & "_" & vSerialNumber & "_" & vTransSeq & "_" & vSnAtrrCode & ".xml"
+
+
         Try
             Dim vLocation As String = vOutputPath
             Dim doc As XmlDocument = New XmlDocument()
@@ -233,11 +235,11 @@ Public Class clsBullEyes
                     Do While Not .EOF
                         Dim paramNode As XmlNode = doc.CreateElement("parameter")
                         Dim codeAttr As XmlNode = doc.CreateAttribute("code")
-                        codeAttr.Value = .Fields("attribute_code").Value
+                        codeAttr.Value = Trim(.Fields("attribute_code").Value)
                         paramNode.Attributes.Append(codeAttr)
 
                         Dim descAttr As XmlNode = doc.CreateAttribute("desc")
-                        descAttr.Value = .Fields("description").Value
+                        descAttr.Value = Trim(.Fields("description").Value)
                         paramNode.Attributes.Append(descAttr)
 
                         Dim minAttr As XmlNode = doc.CreateAttribute("min")
@@ -273,11 +275,11 @@ Public Class clsBullEyes
                         Dim paramNode As XmlNode = doc.CreateElement("parameter")
 
                         Dim codeAttr As XmlNode = doc.CreateAttribute("code")
-                        codeAttr.Value = .Fields("step_name").Value
+                        codeAttr.Value = Trim(.Fields("step_name").Value)
                         paramNode.Attributes.Append(codeAttr)
 
                         Dim descAttr As XmlNode = doc.CreateAttribute("desc")
-                        descAttr.Value = IIf(IsDBNull(.Fields("step_name").Value), "", .Fields("step_name").Value)
+                        descAttr.Value = IIf(IsDBNull(.Fields("step_name").Value), "", Trim(.Fields("step_name").Value))
                         paramNode.Attributes.Append(descAttr)
 
                         Dim minAttr As XmlNode = doc.CreateAttribute("min")
@@ -289,10 +291,10 @@ Public Class clsBullEyes
                         paramNode.Attributes.Append(maxAttr)
 
                         Dim resultAttr As XmlNode = doc.CreateAttribute("result")
-                        resultAttr.Value = IIf(IsDBNull(.Fields("status").Value), "Passed", .Fields("status").Value)
+                        resultAttr.Value = IIf(IsDBNull(.Fields("status").Value), "Passed", Trim(.Fields("status").Value))
                         paramNode.Attributes.Append(resultAttr)
 
-                        paramNode.InnerText = IIf(IsDBNull(.Fields("data").Value), "", .Fields("data").Value)
+                        paramNode.InnerText = IIf(IsDBNull(.Fields("data").Value), "", Trim(.Fields("data").Value))
 
                         paramsNode.AppendChild(paramNode)
                         .MoveNext()

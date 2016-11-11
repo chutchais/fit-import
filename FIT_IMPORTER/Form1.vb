@@ -129,7 +129,7 @@ Public Class Form1
                 Dim vTestDataRst As New ADODB.Recordset
 
                 If vProcess <> "" And vProcess <> "None" Then
-                    vTestDataRst = objAutoTest.getTestData(.serialnumber, vProcess, .tester, .datetimein)
+                    vTestDataRst = objAutoTest.getTestData(.serialnumber, vProcess, .tester, .datetimeout)
                 Else
                     vTestDataRst = Nothing
                 End If
