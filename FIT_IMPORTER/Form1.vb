@@ -256,7 +256,8 @@ Public Class Form1
 
 
         initialControl()
-        Me.Text = Me.Text + " (Target : " + vServiceURL + ")"
+        Me.Text = Me.Text + " (Target : " + vServiceURL + ") version : " & Application.ProductVersion.Trim
+
     End Sub
 
     Private Sub btnImport_Click(sender As Object, e As EventArgs) Handles btnImport.Click
