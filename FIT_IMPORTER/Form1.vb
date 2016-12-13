@@ -116,7 +116,7 @@ Public Class Form1
                 .outputPath = vWorkingDir
                 .result = IIf(IsDBNull(rs.Fields("disp_code").Value), "PASS", rs.Fields("disp_code").Value)
                 .disposecode = IIf(IsDBNull(rs.Fields("disp_code").Value), "", rs.Fields("disp_code").Value)
-                .next_operation = objFits.getNextStation(.serialnumber, .operation, .trans_seq, .model)
+                .next_operation = .operation 'Remove on Dec 13,2016 -- Take long time running - objFits.getNextStation(.serialnumber, .operation, .trans_seq, .model)
 
                 If .operation = .next_operation Then
                     ' MsgBox("Stop ,routing may error")
