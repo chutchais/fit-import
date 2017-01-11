@@ -172,17 +172,28 @@ Public Class Form1
                 .send(doc.InnerXml) '+64
                 strReturn = .responseText
                 If strReturn <> """Successful""" Then
-                    MsgBox(strReturn)
+                    'MsgBox(strReturn)
+                    Log(Now() & " Unable data is not successful : " & strReturn)
                 End If
             End With
             Return True
         Catch ex As Exception
 
-            MsgBox("Unable to upload XML!!!" & vbCrLf & _
-                "Because " & ex.Message, MsgBoxStyle.Critical, "Unable to upload XML")
+            'MsgBox("Unable to upload XML!!!" & vbCrLf & _
+            '   "Because " & ex.Message, MsgBoxStyle.Critical, "Unable to upload XML")
+            Log(Now() & " Unable to upload XML data : " & ex.Message)
         End Try
 
     End Function
+
+    Sub Log(vMessage As String)
+        Dim file As System.IO.StreamWriter
+        Dim vNewMessage As String
+        vNewMessage = vMessage.Replace(vbCr, "").Replace(vbLf, "")
+        file = My.Computer.FileSystem.OpenTextFileWriter("Log.txt", True) '"2016-11-30.txt"
+        file.WriteLine(vNewMessage)
+        file.Close()
+    End Sub
 
 
 
@@ -206,8 +217,10 @@ Public Class Form1
             Return strReturn
         Catch ex As Exception
 
-            MsgBox("Unable to upload XML!!!" & vbCrLf & _
-                "Because " & ex.Message, MsgBoxStyle.Critical, "Unable to upload XML")
+            'MsgBox("Unable to upload XML!!!" & vbCrLf & _
+            '    "Because " & ex.Message, MsgBoxStyle.Critical, "Unable to upload XML")
+            Log(Now() & " Unable to request data : " & ex.Message)
+            Return ""
         End Try
 
     End Function
@@ -252,8 +265,6 @@ Public Class Form1
         If vWorkingDir = "" Then
             vWorkingDir = Application.StartupPath & "\"
         End If
-
-
 
         initialControl()
         Me.Text = Me.Text + " (Target : " + vServiceURL + ") version : " & Application.ProductVersion.Trim
