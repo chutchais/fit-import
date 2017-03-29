@@ -124,6 +124,12 @@ Public Class Form1
 
                 'Get Testing Data
                 '1)get Process from BullsEye -- by Station.
+                If .operation = "" Then
+                    .operation = "NA"
+                End If
+                If .model = "" Then
+                    .model = "NA"
+                End If
                 Dim vProcess As String = requestData(vServiceURL & "production/station/" & .operation & "/" & .model & "/")
                 '2)get Measurement data.
                 Dim vTestDataRst As New ADODB.Recordset
