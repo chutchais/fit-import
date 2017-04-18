@@ -92,7 +92,8 @@ Public Class Form1
             rs = objFits.getEvents(vDateFrom, vDateTo)
 
             If rs.RecordCount = 0 Then
-                lblLastDate.Text = lblNextRun.Text : Application.DoEvents()
+                lblLastDate.Text = lblTo.Text : Application.DoEvents()
+                'lblNextRun.Text
             End If
 
             Do While Not rs.EOF
@@ -241,7 +242,7 @@ Public Class Form1
         gbImport.Text = "Import Details"
         lblPeriod.Text = objInI.GetString("import", "range", "")
         lblLoop.Text = objInI.GetString("import", "interval", "")
-        lblNextRun.Text = Now
+        lblNextRun.Text = Now ' lblTo.Text
         vServiceURL = objInI.GetString("service", "url", "")
     End Sub
 
