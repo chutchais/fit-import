@@ -92,7 +92,12 @@ Public Class Form1
             rs = objFits.getEvents(vDateFrom, vDateTo)
 
             If rs.RecordCount = 0 Then
-                lblLastDate.Text = lblTo.Text : Application.DoEvents()
+                If CDate(lblTo.Text) > Now Then
+                    lblLastDate.Text = lblNextRun.Text : Application.DoEvents()
+                Else
+                    lblLastDate.Text = lblTo.Text : Application.DoEvents()
+                End If
+
                 'lblNextRun.Text
             End If
 
@@ -265,7 +270,7 @@ Public Class Form1
 
     Private Sub Form1_Load(sender As Object, e As EventArgs) Handles Me.Load
         objInI = New clsINI(Application.StartupPath & "\import.ini")
-        Timer1.Interval = (Val(objInI.GetString("import", "interval", "")) - 1) * 1000 * 60
+        Timer1.Interval = (Val(objInI.GetString("import", "interval", ""))) * 1000 * 60
         Timer1.Enabled = False
 
         vWorkingDir = objInI.GetString("path", "working dir", "")
@@ -315,7 +320,10 @@ Public Class Form1
         'End If
         Dim RemainingTime As TimeSpan
         RemainingTime = Now().Subtract(EndTime)
-        Return String.Format("{0:00}:{1:00}:{2:00}", CInt(Math.Floor(RemainingTime.TotalHours)) Mod 60, CInt(Math.Floor(RemainingTime.TotalMinutes)) Mod 60, CInt(Math.Floor(RemainingTime.TotalSeconds)) Mod 60).Replace("-", "")
+        '.AddMinutes(-1)
+        'Return String.Format("{0:00}:{1:00}:{2:00}", CInt(Math.Floor(RemainingTime.TotalHours)) Mod 60, CInt(Math.Floor(RemainingTime.TotalMinutes)) Mod 60, CInt(Math.Floor(RemainingTime.TotalSeconds)) Mod 60).Replace("-", "")
+        Return String.Format("{0:00}:{1:00}", CInt(Math.Floor(RemainingTime.TotalMinutes)) Mod 60, CInt(Math.Floor(RemainingTime.TotalSeconds)) Mod 60).Replace("-", "")
+
     End Function
 
     Private Sub Button1_Click_1(sender As Object, e As EventArgs) Handles Button1.Click
